@@ -1,9 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   Dimensions,
   TouchableOpacity,
@@ -17,12 +15,18 @@ const CalculatorOne = () => {
   const [history, setHistory] = useState("");
 
   const handlePress = (value) => {
-    if (value === "=") {
-      const result = eval(inputData).toString();
-      setHistory(inputData + "=" + result);
-      setInputData(result);
-    } else {
-      setInputData(inputData + value);
+    try {
+      if (inputData.length < 13) {
+        if (value === "=") {
+          const result = eval(inputData).toString();
+          setHistory(inputData + "=" + result);
+          setInputData(result);
+        } else {
+          setInputData(inputData + value);
+        }
+      }
+    } catch (error) {
+      return;
     }
   };
 
@@ -78,18 +82,6 @@ const CalculatorOne = () => {
           <ButtonCalculator value="0" handlePress={handlePress} />
         </View>
       </View>
-      <Text
-        style={{
-          position: "absolute",
-          bottom: 0,
-          textAlign: "center",
-          width: windowWidth,
-          fontSize: 16,
-          marginBottom: 10,
-        }}
-      >
-        made with ❤ by sabilimaulana
-      </Text>
     </View>
   );
 };
